@@ -11,13 +11,13 @@ Then unzip file "Dataset.zip"
 Part 1. Merges the training and the test sets to create one data set:
 
     features <- read.csv("./data/UCI HAR Dataset/features.txt", sep = "", header=FALSE)
-
+    # features$V2 is the second column
     train <- read.csv("./data/UCI HAR Dataset/train/X_train.txt", sep = "", header=FALSE, col.names = features$V2)
     test  <- read.csv("./data/UCI HAR Dataset/test/X_test.txt", sep = "", header=FALSE, col.names = features$V2)
 
     train_labels  <- read.csv("./data/UCI HAR Dataset/train/y_train.txt", header=FALSE, col.names = "label")
     test_labels  <- read.csv("./data/UCI HAR Dataset/test/y_test.txt", header=FALSE, col.names = "label")
-
+    # combine by columns
     train <- train %>% cbind(train_labels)
     test  <- test %>% cbind(test_labels)
 

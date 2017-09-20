@@ -10,7 +10,7 @@ Then unzip file "Dataset.zip"
 
 Part 1. Merges the training and the test sets to create one data set:
 
-    # Reads files and creates a data frames
+    # Reads files and creates data frames
     features <- read.csv("./data/UCI HAR Dataset/features.txt", sep = "", header=FALSE)
     
     # features$V2 is the second column

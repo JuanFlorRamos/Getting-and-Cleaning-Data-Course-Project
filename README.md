@@ -24,10 +24,10 @@ Part 1. Merges the training and the test sets to create one data set:
     train_subject <- read.csv("./data/UCI HAR Dataset/train/subject_train.txt", header=FALSE, col.names = "subject")
     test_subject  <- read.csv("./data/UCI HAR Dataset/test/subject_test.txt", header=FALSE, col.names = "subject")
 
-    train <- train %>% cbind(train_subject)
-    test  <- test %>% cbind(test_subject)
+    train2 <- train %>% cbind(train_subject)
+    test2  <- test %>% cbind(test_subject)
 
-    merge_train_test = rbind(train,test)
+    merge_train_test = rbind(train2,test2)
 
     activity_labels <- read.csv("./data/UCI HAR Dataset/activity_labels.txt", sep = "", header=FALSE, col.names = c("label","activity"))
     merge_train_test <- merge_train_test %>% mutate(activity = activity_labels$activity[match(merge_train_test$label, activity_labels$label)])

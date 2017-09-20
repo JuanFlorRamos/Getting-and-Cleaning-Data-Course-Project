@@ -52,8 +52,8 @@ Part 5. From the data set in step 4, creates a second, independent tidy data set
 
     second_data <- merge_train_test %>% select(c(col_mean, col_std, "activity", "subject"))
 
-    second_data <- second_data %>% group_by(activity,subject) %>% summarise_all(mean)
+    second_data_average <- second_data %>% group_by(activity,subject) %>% summarise_all(mean)
     # second tidy data set
-    second_data
+    second_data_average
 
-    #write.table(second_data, file="./data/tidy_data_step5.txt", row.names=FALSE)
+    #write.table(second_data_average, file="./data/tidy_data_step5.txt", row.names=FALSE)

@@ -11,12 +11,14 @@ Then unzip file "Dataset.zip"
 Part 1. Merges the training and the test sets to create one data set:
 
     features <- read.csv("./data/UCI HAR Dataset/features.txt", sep = "", header=FALSE)
+    
     # features$V2 is the second column
     train <- read.csv("./data/UCI HAR Dataset/train/X_train.txt", sep = "", header=FALSE, col.names = features$V2)
     test  <- read.csv("./data/UCI HAR Dataset/test/X_test.txt", sep = "", header=FALSE, col.names = features$V2)
 
     train_labels  <- read.csv("./data/UCI HAR Dataset/train/y_train.txt", header=FALSE, col.names = "label")
     test_labels  <- read.csv("./data/UCI HAR Dataset/test/y_test.txt", header=FALSE, col.names = "label")
+    
     # combine by columns
     train <- train %>% cbind(train_labels)
     test  <- test %>% cbind(test_labels)
@@ -26,15 +28,16 @@ Part 1. Merges the training and the test sets to create one data set:
 
     train2 <- train %>% cbind(train_subject)
     test2  <- test %>% cbind(test_subject)
-
+    
+    # combine by rows
     merge_train_test = rbind(train2,test2)
 
     activity_labels <- read.csv("./data/UCI HAR Dataset/activity_labels.txt", sep = "", header=FALSE, col.names = c("label","activity"))
     merge_train_test <- merge_train_test %>% mutate(activity = activity_labels$activity[match(merge_train_test$label, activity_labels$label)])
 
 Part 2. Extracts only the measurements on the mean and standard deviation for each measurement.
-
-    col_mean <- grep("mean[^a-zA-Z]",names(merge_train_test),value = TRUE)
+    
+    # search mean() or std()
     col_mean <- grep("mean[^a-zA-Z]",names(merge_train_test),value = TRUE)
     col_std <- grep("std[^a-zA-Z]",names(merge_train_test),value = TRUE)
 

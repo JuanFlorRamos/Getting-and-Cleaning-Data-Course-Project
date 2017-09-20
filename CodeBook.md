@@ -20,7 +20,8 @@ Data Frames:
 - 'merge_train_test': combine by rows, data frames 'train2' with 'test2'
 
 - 'activity_labels': data frame of the class labels with their activity name.
-- 'merge_train_test': match merge_train_test$label and activity_labels$label, then add a new 'activity' column to 'merge_train_test'
+- 'activity': factor of the match merge_train_test$label and activity_labels$label
+- 'merge_train_test': add 'activity' column to 'merge_train_test'
 
 - 'col_mean': search 'mean' for matches within each variable names.
 - 'col_std': search 'std' for matches within each variable names.

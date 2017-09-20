@@ -1,6 +1,6 @@
 # Getting-and-Cleaning-Data-Course-Project
 
-Verify directory:
+Verify directory and download zip file:
 
     if(!file.exists("./data")){dir.create("./data")}
     fileUrl = "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"

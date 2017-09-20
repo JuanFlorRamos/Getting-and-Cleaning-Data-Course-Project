@@ -14,8 +14,12 @@ Part 1. Merges the training and the test sets to create one data set:
     features <- read.csv("./data/UCI HAR Dataset/features.txt", sep = "", header=FALSE)
     
     # features$V2 is the second column
-    train <- read.csv("./data/UCI HAR Dataset/train/X_train.txt", sep = "", header=FALSE, col.names = features$V2)
-    test  <- read.csv("./data/UCI HAR Dataset/test/X_test.txt", sep = "", header=FALSE, col.names = features$V2)
+    train <- read.csv("./data/UCI HAR Dataset/train/X_train.txt", sep = "", header=FALSE)
+    test  <- read.csv("./data/UCI HAR Dataset/test/X_test.txt", sep = "", header=FALSE)
+
+    # new variable names
+    names(train) <- features$V2
+    names(test) <- features$V2
 
     train_labels  <- read.csv("./data/UCI HAR Dataset/train/y_train.txt", header=FALSE, col.names = "label")
     test_labels  <- read.csv("./data/UCI HAR Dataset/test/y_test.txt", header=FALSE, col.names = "label")
@@ -35,15 +39,17 @@ Part 1. Merges the training and the test sets to create one data set:
 
     activity_labels <- read.csv("./data/UCI HAR Dataset/activity_labels.txt", sep = "", header=FALSE, col.names = c("label","activity"))
     # search the descriptive activity names
-    merge_train_test <- merge_train_test %>% mutate(activity = activity_labels$activity[match(merge_train_test$label, activity_labels$label)])
+    activity <- activity_labels$activity[match(merge_train_test$label, activity_labels$label)]
+    # add activity column
+    merge_train_test <- merge_train_test %>% cbind(activity)
 
 Part 2. Extracts only the measurements on the mean and standard deviation for each measurement.
     
     # search mean() or std()
-    col_mean <- grep("mean[^a-zA-Z]",names(merge_train_test),value = TRUE)
-    col_std <- grep("std[^a-zA-Z]",names(merge_train_test),value = TRUE)
+    col_mean <- grep("mean\\(\\)",names(merge_train_test),value = TRUE)
+    col_std <- grep("std\\(\\)",names(merge_train_test),value = TRUE)
 
-    measurement_mean_std <- merge_train_test %>% select(c(col_mean, col_std))
+    measurement_mean_std <- merge_train_test[c(col_mean, col_std)]
 
 Part 3. Uses descriptive activity names to name the activities in the data set
 
@@ -55,7 +61,7 @@ Part 4. Appropriately labels the data set with descriptive variable names.
 
 Part 5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 
-    second_data <- merge_train_test %>% select(c(col_mean, col_std, "activity", "subject"))
+    second_data <- merge_train_test[c(col_mean, col_std, "activity", "subject")]
 
     second_data_average <- second_data %>% group_by(activity,subject) %>% summarise_all(mean)
     # second tidy data set
